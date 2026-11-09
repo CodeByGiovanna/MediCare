@@ -15,13 +15,14 @@ public static class MenuPaciente
             ("Minhas consultas", () => fluxo.ListarConsultas(paciente)),
             ("Cancelar consulta", () => fluxo.Cancelar(paciente)),
             ("Reagendar consulta", () => fluxo.Reagendar(paciente)),
-            ("Atualizar contato", () => AtualizarContato(s, paciente)));
+            ("Acessar teleconsulta", () => TelaTeleconsulta.Acessar(s, paciente)),
+            ("Atualizar perfil", () => AtualizarPerfil(s, paciente)));
     }
 
-    private static void AtualizarContato(Sistema s, Paciente paciente)
+    private static void AtualizarPerfil(Sistema s, Paciente paciente)
     {
         Console.WriteLine($"Telefone atual: {paciente.Telefone} — canal atual: {paciente.CanalPreferido}");
-        s.Contas.AtualizarContato(paciente,
+        s.Contas.AtualizarPerfil(paciente,
             Entrada.LerTexto("Novo telefone"),
             Entrada.Escolher<CanalNotificacao>("Canal para receber avisos"));
         Console.WriteLine("Dados atualizados.");

@@ -45,6 +45,7 @@ public class Consulta : IEntidade
     private void GarantirAgendada()
     {
         if (Status != StatusConsulta.Agendada)
-            throw new InvalidOperationException($"A consulta está {Status.ToString().ToLower()} e não pode ser alterada.");
+            throw new InvalidOperationException(
+                $"A consulta está {Status.ToString().ToLower()} e não pode ser alterada.");
     }
 }

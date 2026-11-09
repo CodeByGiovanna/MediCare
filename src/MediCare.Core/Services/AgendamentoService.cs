@@ -4,8 +4,9 @@ using MediCare.Core.Repositories;
 namespace MediCare.Core.Services;
 
 /// <summary>
-/// Casos de uso UC03 a UC07, usados pelo paciente e pela recepcionista:
-/// pesquisar médicos, consultar horários, agendar, cancelar e reagendar consultas.
+/// Casos de uso UC03 a UC07, usados pelo paciente e pela recepcionista
+/// (pesquisar médicos, consultar horários, agendar, cancelar e reagendar consultas),
+/// e UC13, usado pelo administrador para acompanhar e cancelar agendamentos.
 /// </summary>
 public class AgendamentoService(MediCareDados dados, NotificacaoService notificacoes)
 {
@@ -20,6 +21,12 @@ public class AgendamentoService(MediCareDados dados, NotificacaoService notifica
 
     public IEnumerable<Consulta> ConsultasDoPaciente(int pacienteId) =>
         dados.Consultas.ListarTodos().Where(c => c.PacienteId == pacienteId);
+
+    public IEnumerable<Consulta> ListarAgendamentos(StatusConsulta? status = null) =>
+        dados.Consultas.ListarTodos()
+            .Where(c => status is null || c.Status == status)
+            .OrderBy(c => ObterHorario(c.HorarioId).Data)
+            .ThenBy(c => ObterHorario(c.HorarioId).HoraInicio);
 
     public Consulta Agendar(int pacienteId, int horarioId)
     {

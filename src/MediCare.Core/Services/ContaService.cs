@@ -65,11 +65,17 @@ public class ContaService(MediCareDados dados)
         return usuario;
     }
 
-    public void AtualizarContato(Paciente paciente, string telefone, CanalNotificacao canal)
+    public void AtualizarPerfil(Paciente paciente, string telefone, CanalNotificacao canal)
     {
         paciente.Telefone = telefone;
         paciente.CanalPreferido = canal;
         dados.Pacientes.Salvar();
+    }
+
+    public void AtualizarPerfil(Medico medico, string telefone)
+    {
+        medico.Telefone = telefone;
+        dados.Medicos.Salvar();
     }
 
     public Usuario? ObterPorEmail(string email) =>

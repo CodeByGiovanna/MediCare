@@ -12,7 +12,9 @@ public static class MenuMedico
             ("Histórico de um paciente", () => Historico(s, medico)),
             ("Meus horários", () => s.Exibir.Horarios(s.Disponibilidade.HorariosDoMedico(medico.Id))),
             ("Cadastrar horário", () => CadastrarHorario(s, medico)),
-            ("Remover horário", () => RemoverHorario(s, medico)));
+            ("Remover horário", () => RemoverHorario(s, medico)),
+            ("Acessar teleconsulta", () => TelaTeleconsulta.Acessar(s, medico)),
+            ("Atualizar telefone", () => AtualizarPerfil(s, medico)));
     }
 
     private static void Concluir(Sistema s, Medico medico)
@@ -46,6 +48,13 @@ public static class MenuMedico
 
         var horario = s.Disponibilidade.CadastrarHorario(medico.Id, data, inicio, fim, modalidade, localId);
         Console.WriteLine($"Horário {horario.Id} cadastrado.");
+    }
+
+    private static void AtualizarPerfil(Sistema s, Medico medico)
+    {
+        Console.WriteLine($"Telefone atual: {medico.Telefone}");
+        s.Contas.AtualizarPerfil(medico, Entrada.LerTexto("Novo telefone"));
+        Console.WriteLine("Dados atualizados.");
     }
 
     private static void RemoverHorario(Sistema s, Medico medico)

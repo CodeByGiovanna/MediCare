@@ -24,25 +24,33 @@ public static class Entrada
     }
 
     public static int LerInt(string rotulo) =>
-        int.TryParse(Ler(rotulo), out var valor) ? valor : throw new FormatException($"{rotulo} deve ser um número.");
+        LerIntOpcional(rotulo) ?? throw new FormatException($"{rotulo} deve ser um número.");
 
     public static int? LerIntOpcional(string rotulo)
     {
         var texto = Ler(rotulo);
         if (string.IsNullOrWhiteSpace(texto))
             return null;
-        return int.TryParse(texto, out var valor) ? valor : throw new FormatException($"{rotulo} deve ser um número.");
+        return int.TryParse(texto, out var valor)
+            ? valor
+            : throw new FormatException($"{rotulo} deve ser um número.");
     }
 
-    public static DateOnly LerData(string rotulo) =>
-        DateOnly.TryParseExact(Ler($"{rotulo} (dd/mm/aaaa)"), "dd/MM/yyyy", Cultura, DateTimeStyles.None, out var data)
+    public static DateOnly LerData(string rotulo)
+    {
+        var texto = Ler($"{rotulo} (dd/mm/aaaa)");
+        return DateOnly.TryParseExact(texto, "dd/MM/yyyy", Cultura, DateTimeStyles.None, out var data)
             ? data
             : throw new FormatException($"{rotulo} inválida.");
+    }
 
-    public static TimeOnly LerHora(string rotulo) =>
-        TimeOnly.TryParseExact(Ler($"{rotulo} (hh:mm)"), "HH:mm", Cultura, DateTimeStyles.None, out var hora)
+    public static TimeOnly LerHora(string rotulo)
+    {
+        var texto = Ler($"{rotulo} (hh:mm)");
+        return TimeOnly.TryParseExact(texto, "HH:mm", Cultura, DateTimeStyles.None, out var hora)
             ? hora
             : throw new FormatException($"{rotulo} inválida.");
+    }
 
     public static TEnum Escolher<TEnum>(string rotulo) where TEnum : struct, Enum
     {

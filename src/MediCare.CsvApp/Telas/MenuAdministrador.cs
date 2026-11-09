@@ -1,3 +1,5 @@
+using MediCare.Core.Models;
+
 namespace MediCare.CsvApp.Telas;
 
 public static class MenuAdministrador
@@ -8,7 +10,8 @@ public static class MenuAdministrador
             ("Listar usuários", () => ListarUsuarios(s)),
             ("Ativar usuário", () => AlterarSituacao(s, ativo: true)),
             ("Desativar usuário", () => AlterarSituacao(s, ativo: false)),
-            ("Listar agendamentos", () => s.Exibir.Consultas(s.Dados.Consultas.ListarTodos())),
+            ("Listar agendamentos", () => ListarAgendamentos(s)),
+            ("Cancelar agendamento", () => CancelarAgendamento(s)),
             ("Gerar lembretes de amanhã", () => GerarLembretes(s)),
             ("Enviar notificações pendentes", () => EnviarNotificacoes(s)));
     }
@@ -16,13 +19,32 @@ public static class MenuAdministrador
     private static void ListarUsuarios(Sistema s)
     {
         foreach (var u in s.Contas.ListarUsuarios())
-            Console.WriteLine($"  {u.GetType().Name,-14} {u.Nome,-25} {u.Email,-30} {(u.Ativo ? "ativo" : "desativado")}");
+        {
+            var situacao = u.Ativo ? "ativo" : "desativado";
+            Console.WriteLine($"  {u.GetType().Name,-14} {u.Nome,-25} {u.Email,-30} {situacao}");
+        }
     }
 
     private static void AlterarSituacao(Sistema s, bool ativo)
     {
         s.Contas.AlterarSituacao(Entrada.LerTexto("E-mail do usuário"), ativo);
         Console.WriteLine(ativo ? "Usuário ativado." : "Usuário desativado.");
+    }
+
+    private static void ListarAgendamentos(Sistema s)
+    {
+        var filtro = Entrada.LerIntOpcional("Situação (1 Agendada, 2 Cancelada, 3 Realizada; Enter para todas)");
+        StatusConsulta? status = filtro is int n && Enum.IsDefined(typeof(StatusConsulta), n - 1)
+            ? (StatusConsulta)(n - 1)
+            : null;
+        s.Exibir.Consultas(s.Agendamento.ListarAgendamentos(status));
+    }
+
+    private static void CancelarAgendamento(Sistema s)
+    {
+        s.Exibir.Consultas(s.Agendamento.ListarAgendamentos(StatusConsulta.Agendada));
+        s.Agendamento.Cancelar(Entrada.LerInt("Consulta"));
+        Console.WriteLine("Consulta cancelada e horário liberado.");
     }
 
     private static void GerarLembretes(Sistema s)
