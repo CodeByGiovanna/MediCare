@@ -1,0 +1,66 @@
+@page
+@model HorariosModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Meus horários";
+}
+<h1>Meus horários</h1>
+<partial name="_Mensagens" model="Model" />
+
+<div class="cartao">
+    <h2>Novo horário</h2>
+    <form method="post" asp-page-handler="Cadastrar" class="grade">
+        <div>
+            <label asp-for="Data">Data</label>
+            <input asp-for="Data" type="date" />
+            <span asp-validation-for="Data" class="erro-campo"></span>
+        </div>
+        <div>
+            <label asp-for="Inicio">Início</label>
+            <input asp-for="Inicio" type="time" />
+            <span asp-validation-for="Inicio" class="erro-campo"></span>
+        </div>
+        <div>
+            <label asp-for="Fim">Término</label>
+            <input asp-for="Fim" type="time" />
+            <span asp-validation-for="Fim" class="erro-campo"></span>
+        </div>
+        <div>
+            <label asp-for="Modalidade">Modalidade</label>
+            <select asp-for="Modalidade" asp-items="Html.GetEnumSelectList<Modalidade>()"></select>
+        </div>
+        <div>
+            <label asp-for="LocalId">Local (presencial)</label>
+            <select asp-for="LocalId" asp-items="Model.Locais">
+                <option value="">—</option>
+            </select>
+        </div>
+        <div class="alinhar-base">
+            <button type="submit" class="botao">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+<table>
+    <thead><tr><th>Data e hora</th><th>Modalidade</th><th>Local</th><th>Situação</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var h in Model.Horarios)
+    {
+        <tr>
+            <td>@Texto.DataHora(h)</td>
+            <td>@h.Modalidade</td>
+            <td>@Texto.Local(h)</td>
+            <td>@(h.Disponivel ? "Livre" : "Reservado")</td>
+            <td>
+                @if (h.Disponivel)
+                {
+                    <form method="post" asp-page-handler="Remover" class="inline">
+                        <input type="hidden" name="horarioId" value="@h.Id" />
+                        <button type="submit" class="link perigo">Remover</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

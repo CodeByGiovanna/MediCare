@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MediCare.Core.Models;
 
 public enum Modalidade
@@ -15,7 +17,7 @@ public enum StatusConsulta
 
 public enum ProvedorAutenticacao
 {
-    Local,
+    [Display(Name = "Senha")] Local,
     Google,
     Microsoft,
     Meta
@@ -23,14 +25,14 @@ public enum ProvedorAutenticacao
 
 public enum CanalNotificacao
 {
-    Email,
-    Sms,
+    [Display(Name = "E-mail")] Email,
+    [Display(Name = "SMS")] Sms,
     WhatsApp
 }
 
 public enum TipoNotificacao
 {
-    Confirmacao,
+    [Display(Name = "Confirmação")] Confirmacao,
     Reagendamento,
     Cancelamento,
     Lembrete

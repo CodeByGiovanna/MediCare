@@ -1,0 +1,35 @@
+@page
+@model CriarContaModel
+@{
+    ViewData["Title"] = "Criar conta";
+}
+<div class="cartao estreito">
+    <h1>Criar conta de paciente</h1>
+    <partial name="_Mensagens" model="Model" />
+    <form method="post">
+        <label asp-for="Nome">Nome completo</label>
+        <input asp-for="Nome" />
+        <span asp-validation-for="Nome" class="erro-campo"></span>
+
+        <label asp-for="Email">E-mail</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="erro-campo"></span>
+
+        <label asp-for="Senha">Senha</label>
+        <input asp-for="Senha" />
+        <span asp-validation-for="Senha" class="erro-campo"></span>
+
+        <label asp-for="Telefone">Telefone</label>
+        <input asp-for="Telefone" />
+        <span asp-validation-for="Telefone" class="erro-campo"></span>
+
+        <label asp-for="DataNascimento">Data de nascimento</label>
+        <input asp-for="DataNascimento" type="date" />
+        <span asp-validation-for="DataNascimento" class="erro-campo"></span>
+
+        <label asp-for="Canal">Receber avisos por</label>
+        <select asp-for="Canal" asp-items="Html.GetEnumSelectList<CanalNotificacao>()"></select>
+
+        <button type="submit" class="botao">Criar conta</button>
+    </form>
+</div>

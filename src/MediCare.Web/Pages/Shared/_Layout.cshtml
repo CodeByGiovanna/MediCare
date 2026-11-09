@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] — MediCare</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="marca" href="/">MediCare</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (User.IsInRole(Perfis.Paciente))
+                {
+                    <a asp-page="/Agendamento/Consultas">Minhas consultas</a>
+                    <a asp-page="/Agendamento/Medicos">Agendar</a>
+                    <a asp-page="/AreaPaciente/Perfil">Meu perfil</a>
+                }
+                @if (User.IsInRole(Perfis.Recepcionista))
+                {
+                    <a asp-page="/Recepcao/Index">Pacientes</a>
+                }
+                @if (User.IsInRole(Perfis.Medico))
+                {
+                    <a asp-page="/AreaMedico/Index">Agenda</a>
+                    <a asp-page="/AreaMedico/Horarios">Horários</a>
+                    <a asp-page="/AreaMedico/Historico">Histórico</a>
+                    <a asp-page="/AreaMedico/Perfil">Meu perfil</a>
+                }
+                @if (User.IsInRole(Perfis.Administrador))
+                {
+                    <a asp-page="/Admin/Usuarios">Usuários</a>
+                    <a asp-page="/Admin/Agendamentos">Agendamentos</a>
+                    <a asp-page="/Admin/Notificacoes">Notificações</a>
+                }
+                <span class="usuario">@User.Identity.Name</span>
+                <form method="post" asp-page="/Conta/Sair" class="inline">
+                    <button type="submit" class="link">Sair</button>
+                </form>
+            }
+            else
+            {
+                <a asp-page="/Conta/Entrar">Entrar</a>
+                <a asp-page="/Conta/CriarConta">Criar conta</a>
+            }
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+</body>
+</html>

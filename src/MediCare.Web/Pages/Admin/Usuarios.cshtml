@@ -1,0 +1,35 @@
+@page
+@model UsuariosModel
+@{
+    ViewData["Title"] = "Usuários";
+}
+<h1>Usuários</h1>
+<partial name="_Mensagens" model="Model" />
+
+<table>
+    <thead><tr><th>Perfil</th><th>Nome</th><th>E-mail</th><th>Login</th><th>Situação</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var u in Model.Usuarios)
+    {
+        <tr>
+            <td>@UsuarioLogado.Perfil(u)</td>
+            <td>@u.Nome</td>
+            <td>@u.Email</td>
+            <td>@Apresentacao.Nome(u.Provedor)</td>
+            <td><span class="situacao @(u.Ativo ? "agendada" : "cancelada")">@(u.Ativo ? "Ativo" : "Desativado")</span></td>
+            <td>
+                @if (!(u is Administrador && u.Id == Model.AdministradorId))
+                {
+                    <form method="post" class="inline">
+                        <input type="hidden" name="email" value="@u.Email" />
+                        <input type="hidden" name="ativo" value="@(!u.Ativo)" />
+                        <button type="submit" class="link @(u.Ativo ? "perigo" : "")">
+                            @(u.Ativo ? "Desativar" : "Ativar")
+                        </button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

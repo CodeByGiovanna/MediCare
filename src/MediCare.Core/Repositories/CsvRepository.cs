@@ -9,7 +9,7 @@ namespace MediCare.Core.Repositories;
 /// Os registros são carregados na criação do repositório e gravados em Salvar().
 /// Cada classe filha define o cabeçalho e como converter uma linha em objeto e vice-versa.
 /// </summary>
-public abstract class CsvRepository<T> where T : class, IEntidade
+public abstract class CsvRepository<T> : IRepositorio<T> where T : class, IEntidade
 {
     private readonly string _caminho;
     private readonly List<T> _itens = new();

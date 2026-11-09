@@ -8,6 +8,9 @@ public class Consulta : IEntidade
     public StatusConsulta Status { get; private set; } = StatusConsulta.Agendada;
     public DateTime DataAgendamento { get; private set; }
 
+    // Usado pelo EF Core ao materializar a entidade.
+    private Consulta() { }
+
     public Consulta(int pacienteId, int horarioId)
     {
         PacienteId = pacienteId;

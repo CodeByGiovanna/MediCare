@@ -1,0 +1,20 @@
+@page
+@model PerfilModel
+@{
+    ViewData["Title"] = "Meu perfil";
+}
+<div class="cartao estreito">
+    <h1>Meu perfil</h1>
+    <partial name="_Mensagens" model="Model" />
+    <p><strong>@Model.Paciente.Nome</strong><br />@Model.Paciente.Email</p>
+    <form method="post">
+        <label asp-for="Telefone">Telefone</label>
+        <input asp-for="Telefone" />
+        <span asp-validation-for="Telefone" class="erro-campo"></span>
+
+        <label asp-for="Canal">Receber avisos por</label>
+        <select asp-for="Canal" asp-items="Html.GetEnumSelectList<CanalNotificacao>()"></select>
+
+        <button type="submit" class="botao">Salvar</button>
+    </form>
+</div>

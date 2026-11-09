@@ -1,0 +1,6 @@
+@model PaginaAgendamento
+@if (Model.AtendimentoPelaRecepcao)
+{
+    <p class="faixa">Atendendo: <strong>@Model.Paciente.Nome</strong> (@Model.Paciente.Email)
+        — <a asp-page="/Recepcao/Index">trocar paciente</a></p>
+}

@@ -1,0 +1,44 @@
+@page
+@model MedicosModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Pesquisar médicos";
+}
+<partial name="_Paciente" model="Model" />
+<h1>Pesquisar médicos</h1>
+<partial name="_Mensagens" model="Model" />
+
+<form method="get" class="filtro">
+    <input type="hidden" asp-for="PacienteId" />
+    <label for="especialidadeId">Especialidade</label>
+    <select id="especialidadeId" name="especialidadeId" asp-items="Model.Especialidades">
+        <option value="">Todas</option>
+    </select>
+    <button type="submit" class="botao">Pesquisar</button>
+</form>
+
+@if (!Model.Medicos.Any())
+{
+    <p>Nenhum médico encontrado.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Médico</th><th>Especialidade</th><th>CRM</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var m in Model.Medicos)
+        {
+            <tr>
+                <td>@m.Nome</td>
+                <td>@Texto.Especialidade(m.EspecialidadeId)</td>
+                <td>@m.Crm</td>
+                <td>
+                    <a asp-page="Horarios" asp-route-medicoId="@m.Id" asp-route-pacienteId="@Model.PacienteId">
+                        Ver horários
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

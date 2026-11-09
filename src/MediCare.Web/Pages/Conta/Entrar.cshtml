@@ -1,0 +1,21 @@
+@page
+@model EntrarModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+<div class="cartao estreito">
+    <h1>Entrar</h1>
+    <partial name="_Mensagens" model="Model" />
+    <form method="post">
+        <label asp-for="Email">E-mail</label>
+        <input asp-for="Email" autofocus />
+        <span asp-validation-for="Email" class="erro-campo"></span>
+
+        <label asp-for="Senha">Senha</label>
+        <input asp-for="Senha" />
+        <span asp-validation-for="Senha" class="erro-campo"></span>
+
+        <button type="submit" class="botao">Entrar</button>
+    </form>
+    <p class="discreto">Não tem conta? <a asp-page="/Conta/CriarConta">Crie a sua</a>.</p>
+</div>

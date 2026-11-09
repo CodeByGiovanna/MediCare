@@ -1,0 +1,33 @@
+@page
+@model NotificacoesModel
+@{
+    ViewData["Title"] = "Notificações";
+}
+<h1>Notificações</h1>
+<partial name="_Mensagens" model="Model" />
+
+<div class="botoes">
+    <form method="post" asp-page-handler="GerarLembretes" class="inline">
+        <button type="submit" class="botao secundario">Gerar lembretes de amanhã</button>
+    </form>
+    <form method="post" asp-page-handler="Enviar" class="inline">
+        <button type="submit" class="botao">Enviar pendentes (@Model.Pendentes)</button>
+    </form>
+</div>
+
+<table>
+    <thead><tr><th>Criada em</th><th>Tipo</th><th>Canal</th><th>Destino</th><th>Mensagem</th><th>Situação</th></tr></thead>
+    <tbody>
+    @foreach (var n in Model.Notificacoes)
+    {
+        <tr>
+            <td>@n.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>@Apresentacao.Nome(n.Tipo)</td>
+            <td>@Apresentacao.Nome(n.Canal)</td>
+            <td>@n.Destino</td>
+            <td class="texto-longo">@n.Mensagem</td>
+            <td>@(n.Status == StatusNotificacao.Enviada ? $"Enviada {n.DataEnvio:dd/MM HH:mm}" : "Pendente")</td>
+        </tr>
+    }
+    </tbody>
+</table>

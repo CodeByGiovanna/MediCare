@@ -1,0 +1,41 @@
+@page
+@model MediCare.Web.Pages.AreaMedico.IndexModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Agenda";
+}
+<h1>Minha agenda</h1>
+<partial name="_Mensagens" model="Model" />
+
+@if (!Model.Consultas.Any())
+{
+    <p>Nenhuma consulta agendada.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Data e hora</th><th>Paciente</th><th>Local</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var c in Model.Consultas)
+        {
+            var h = Texto.Horario(c);
+            <tr>
+                <td>@Texto.DataHora(h)</td>
+                <td>@Texto.Paciente(c)</td>
+                <td>@Texto.Local(h)</td>
+                <td class="acoes">
+                    @if (h.Modalidade == Modalidade.Teleconsulta)
+                    {
+                        <a asp-page="/Teleconsulta/Acessar" asp-route-consultaId="@c.Id">Acessar</a>
+                    }
+                    <a asp-page="Historico" asp-route-pacienteId="@c.PacienteId">Histórico</a>
+                    <form method="post" asp-page-handler="Concluir" class="inline">
+                        <input type="hidden" name="consultaId" value="@c.Id" />
+                        <button type="submit" class="link">Registrar como realizada</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

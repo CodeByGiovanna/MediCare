@@ -1,0 +1,15 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Início";
+}
+<section class="destaque">
+    <h1>MediCare</h1>
+    <p>Encontre médicos por especialidade, veja os horários disponíveis e agende consultas
+       presenciais ou por teleconsulta.</p>
+    <p>
+        <a class="botao" asp-page="/Conta/Entrar">Entrar</a>
+        <a class="botao secundario" asp-page="/Conta/CriarConta">Criar conta de paciente</a>
+    </p>
+    <p class="discreto">É médico? <a asp-page="/Conta/CriarContaMedico">Cadastre-se aqui</a>.</p>
+</section>

@@ -16,6 +16,13 @@ public class Notificacao : IEntidade
     public StatusNotificacao Status { get; private set; } = StatusNotificacao.Pendente;
     public DateTime? DataEnvio { get; private set; }
 
+    // Usado pelo EF Core ao materializar a entidade.
+    private Notificacao()
+    {
+        Destino = "";
+        Mensagem = "";
+    }
+
     public Notificacao(int consultaId, TipoNotificacao tipo, CanalNotificacao canal, string destino, string mensagem)
     {
         ConsultaId = consultaId;

@@ -1,0 +1,32 @@
+@page
+@model MediCare.Web.Pages.Recepcao.IndexModel
+@{
+    ViewData["Title"] = "Recepção";
+}
+<h1>Recepção</h1>
+<partial name="_Mensagens" model="Model" />
+<p>Escolha o paciente que está sendo atendido para agendar, reagendar ou cancelar consultas.</p>
+
+<form method="get" class="filtro">
+    <label asp-for="Busca">Nome ou e-mail</label>
+    <input asp-for="Busca" />
+    <button type="submit" class="botao">Buscar</button>
+</form>
+
+<table>
+    <thead><tr><th>Paciente</th><th>E-mail</th><th>Telefone</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var p in Model.Pacientes)
+    {
+        <tr>
+            <td>@p.Nome</td>
+            <td>@p.Email</td>
+            <td>@p.Telefone</td>
+            <td class="acoes">
+                <a asp-page="/Agendamento/Medicos" asp-route-pacienteId="@p.Id">Agendar</a>
+                <a asp-page="/Agendamento/Consultas" asp-route-pacienteId="@p.Id">Consultas</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

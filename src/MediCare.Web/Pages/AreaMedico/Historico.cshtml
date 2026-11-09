@@ -1,0 +1,40 @@
+@page
+@model HistoricoModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Histórico do paciente";
+}
+<h1>Histórico do paciente</h1>
+<partial name="_Mensagens" model="Model" />
+
+<form method="get" class="filtro">
+    <label for="email">E-mail do paciente</label>
+    <input id="email" name="email" value="@Model.Email" />
+    <button type="submit" class="botao">Consultar</button>
+</form>
+
+@if (Model.Paciente is not null)
+{
+    <h2>@Model.Paciente.Nome</h2>
+    @if (!Model.Consultas.Any())
+    {
+        <p>Nenhuma consulta realizada.</p>
+    }
+    else
+    {
+        <table>
+            <thead><tr><th>Data e hora</th><th>Médico</th><th>Local</th></tr></thead>
+            <tbody>
+            @foreach (var c in Model.Consultas)
+            {
+                var h = Texto.Horario(c);
+                <tr>
+                    <td>@Texto.DataHora(h)</td>
+                    <td>@Texto.Medico(c)</td>
+                    <td>@Texto.Local(h)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}

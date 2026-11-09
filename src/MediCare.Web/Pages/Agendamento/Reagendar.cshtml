@@ -1,0 +1,42 @@
+@page
+@model ReagendarModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Reagendar consulta";
+    var atual = Texto.Horario(Model.Consulta);
+}
+<partial name="_Paciente" model="Model" />
+<h1>Reagendar consulta</h1>
+<partial name="_Mensagens" model="Model" />
+<p>Consulta atual: <strong>@Texto.DataHora(atual)</strong> com Dr(a). @Texto.Medico(Model.Consulta)
+   — @Texto.Local(atual)</p>
+
+@if (!Model.Horarios.Any())
+{
+    <p>Não há outros horários disponíveis com este médico.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Novo horário</th><th>Modalidade</th><th>Local</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var h in Model.Horarios)
+        {
+            <tr>
+                <td>@Texto.DataHora(h)</td>
+                <td>@h.Modalidade</td>
+                <td>@Texto.Local(h)</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="consultaId" value="@Model.Consulta.Id" />
+                        <input type="hidden" name="novoHorarioId" value="@h.Id" />
+                        <input type="hidden" asp-for="PacienteId" />
+                        <button type="submit" class="botao pequeno">Escolher</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+<p><a asp-page="Consultas" asp-route-pacienteId="@Model.PacienteId">Voltar às consultas</a></p>

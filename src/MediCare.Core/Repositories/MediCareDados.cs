@@ -3,19 +3,33 @@ using MediCare.Core.Models;
 namespace MediCare.Core.Repositories;
 
 /// <summary>
-/// Reúne os repositórios de todas as entidades em uma pasta de dados.
+/// Reúne os repositórios de todas as entidades. A forma de persistência (CSV ou EF Core)
+/// é escolhida por quem cria o objeto; os serviços não dependem dela.
 /// </summary>
-public class MediCareDados(string pasta)
+public class MediCareDados
 {
-    public EspecialidadeRepository Especialidades { get; } = new(Path.Combine(pasta, "especialidades.csv"));
-    public PacienteRepository Pacientes { get; } = new(Path.Combine(pasta, "pacientes.csv"));
-    public MedicoRepository Medicos { get; } = new(Path.Combine(pasta, "medicos.csv"));
-    public RecepcionistaRepository Recepcionistas { get; } = new(Path.Combine(pasta, "recepcionistas.csv"));
-    public AdministradorRepository Administradores { get; } = new(Path.Combine(pasta, "administradores.csv"));
-    public LocalAtendimentoRepository Locais { get; } = new(Path.Combine(pasta, "locais_atendimento.csv"));
-    public HorarioRepository Horarios { get; } = new(Path.Combine(pasta, "horarios.csv"));
-    public ConsultaRepository Consultas { get; } = new(Path.Combine(pasta, "consultas.csv"));
-    public NotificacaoRepository Notificacoes { get; } = new(Path.Combine(pasta, "notificacoes.csv"));
+    public required IRepositorio<Especialidade> Especialidades { get; init; }
+    public required IRepositorio<Paciente> Pacientes { get; init; }
+    public required IRepositorio<Medico> Medicos { get; init; }
+    public required IRepositorio<Recepcionista> Recepcionistas { get; init; }
+    public required IRepositorio<Administrador> Administradores { get; init; }
+    public required IRepositorio<LocalAtendimento> Locais { get; init; }
+    public required IRepositorio<HorarioDisponivel> Horarios { get; init; }
+    public required IRepositorio<Consulta> Consultas { get; init; }
+    public required IRepositorio<Notificacao> Notificacoes { get; init; }
+
+    public static MediCareDados DeArquivosCsv(string pasta) => new()
+    {
+        Especialidades = new EspecialidadeRepository(Path.Combine(pasta, "especialidades.csv")),
+        Pacientes = new PacienteRepository(Path.Combine(pasta, "pacientes.csv")),
+        Medicos = new MedicoRepository(Path.Combine(pasta, "medicos.csv")),
+        Recepcionistas = new RecepcionistaRepository(Path.Combine(pasta, "recepcionistas.csv")),
+        Administradores = new AdministradorRepository(Path.Combine(pasta, "administradores.csv")),
+        Locais = new LocalAtendimentoRepository(Path.Combine(pasta, "locais_atendimento.csv")),
+        Horarios = new HorarioRepository(Path.Combine(pasta, "horarios.csv")),
+        Consultas = new ConsultaRepository(Path.Combine(pasta, "consultas.csv")),
+        Notificacoes = new NotificacaoRepository(Path.Combine(pasta, "notificacoes.csv"))
+    };
 
     public IEnumerable<Usuario> TodosOsUsuarios() =>
         Pacientes.ListarTodos().Cast<Usuario>()

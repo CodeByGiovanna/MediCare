@@ -1,0 +1,21 @@
+@page
+@model AcessarModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Teleconsulta";
+}
+<h1>Teleconsulta</h1>
+<partial name="_Mensagens" model="Model" />
+
+@if (Model.Consulta is not null)
+{
+    var h = Texto.Horario(Model.Consulta);
+    <div class="cartao">
+        <p class="aviso sucesso">Acesso liberado.</p>
+        <p><strong>Paciente:</strong> @Texto.Paciente(Model.Consulta)<br />
+           <strong>Médico:</strong> Dr(a). @Texto.Medico(Model.Consulta)<br />
+           <strong>Horário:</strong> @Texto.DataHora(h)</p>
+        <p class="discreto">A chamada de vídeo é realizada pela plataforma de teleconsulta.</p>
+    </div>
+}
+<p><a href="/">Voltar</a></p>

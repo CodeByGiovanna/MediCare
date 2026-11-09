@@ -1,0 +1,51 @@
+@page
+@model ConsultasModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Consultas";
+}
+<partial name="_Paciente" model="Model" />
+<h1>@(Model.AtendimentoPelaRecepcao ? "Consultas do paciente" : "Minhas consultas")</h1>
+<partial name="_Mensagens" model="Model" />
+
+<p><a class="botao" asp-page="Medicos" asp-route-pacienteId="@Model.PacienteId">Agendar nova consulta</a></p>
+
+@if (!Model.Consultas.Any())
+{
+    <p>Nenhuma consulta encontrada.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Data e hora</th><th>Médico</th><th>Local</th><th>Situação</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var c in Model.Consultas)
+        {
+            var h = Texto.Horario(c);
+            <tr>
+                <td>@Texto.DataHora(h)</td>
+                <td>@Texto.Medico(c)</td>
+                <td>@Texto.Local(h)</td>
+                <td><span class="situacao @c.Status.ToString().ToLower()">@Apresentacao.Nome(c.Status)</span></td>
+                <td class="acoes">
+                    @if (c.Status == StatusConsulta.Agendada)
+                    {
+                        @if (h.Modalidade == Modalidade.Teleconsulta && !Model.AtendimentoPelaRecepcao)
+                        {
+                            <a asp-page="/Teleconsulta/Acessar" asp-route-consultaId="@c.Id">Acessar</a>
+                        }
+                        <a asp-page="Reagendar" asp-route-consultaId="@c.Id"
+                           asp-route-pacienteId="@Model.PacienteId">Reagendar</a>
+                        <form method="post" asp-page-handler="Cancelar" class="inline"
+                              onsubmit="return confirm('Cancelar esta consulta?');">
+                            <input type="hidden" name="consultaId" value="@c.Id" />
+                            <input type="hidden" asp-for="PacienteId" />
+                            <button type="submit" class="link perigo">Cancelar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

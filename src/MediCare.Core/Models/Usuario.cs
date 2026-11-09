@@ -8,9 +8,9 @@ public abstract class Usuario : IEntidade
     public int Id { get; set; }
     public string Nome { get; set; } = "";
     public string Email { get; set; } = "";
-    public string SenhaHash { get; private set; } = "";
+    public string SenhaHash { get; protected set; } = "";
     public ProvedorAutenticacao Provedor { get; set; } = ProvedorAutenticacao.Local;
-    public bool Ativo { get; private set; } = true;
+    public bool Ativo { get; protected set; } = true;
     public DateTime DataCadastro { get; set; } = DateTime.Now;
 
     public void DefinirSenha(string senha)

@@ -1,0 +1,35 @@
+@page
+@model CriarContaMedicoModel
+@{
+    ViewData["Title"] = "Cadastro de médico";
+}
+<div class="cartao estreito">
+    <h1>Cadastro de médico</h1>
+    <partial name="_Mensagens" model="Model" />
+    <form method="post">
+        <label asp-for="Nome">Nome completo</label>
+        <input asp-for="Nome" />
+        <span asp-validation-for="Nome" class="erro-campo"></span>
+
+        <label asp-for="Email">E-mail</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="erro-campo"></span>
+
+        <label asp-for="Senha">Senha</label>
+        <input asp-for="Senha" />
+        <span asp-validation-for="Senha" class="erro-campo"></span>
+
+        <label asp-for="Crm">CRM</label>
+        <input asp-for="Crm" placeholder="CRM-RJ 123456" />
+        <span asp-validation-for="Crm" class="erro-campo"></span>
+
+        <label asp-for="Telefone">Telefone</label>
+        <input asp-for="Telefone" />
+        <span asp-validation-for="Telefone" class="erro-campo"></span>
+
+        <label asp-for="EspecialidadeId">Especialidade</label>
+        <select asp-for="EspecialidadeId" asp-items="Model.Especialidades"></select>
+
+        <button type="submit" class="botao">Cadastrar</button>
+    </form>
+</div>

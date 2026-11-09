@@ -1,0 +1,40 @@
+@page
+@model HorariosModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Horários disponíveis";
+}
+<partial name="_Paciente" model="Model" />
+<h1>Horários de @Model.Medico.Nome</h1>
+<p class="discreto">@Texto.Especialidade(Model.Medico.EspecialidadeId) · @Model.Medico.Crm</p>
+<partial name="_Mensagens" model="Model" />
+
+@if (!Model.Horarios.Any())
+{
+    <p>Não há horários disponíveis para este médico.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Data e hora</th><th>Modalidade</th><th>Local</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var h in Model.Horarios)
+        {
+            <tr>
+                <td>@Texto.DataHora(h)</td>
+                <td>@h.Modalidade</td>
+                <td>@Texto.Local(h)</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="horarioId" value="@h.Id" />
+                        <input type="hidden" asp-for="PacienteId" />
+                        <input type="hidden" name="medicoId" value="@Model.Medico.Id" />
+                        <button type="submit" class="botao pequeno">Agendar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+<p><a asp-page="Medicos" asp-route-pacienteId="@Model.PacienteId">Voltar à pesquisa</a></p>

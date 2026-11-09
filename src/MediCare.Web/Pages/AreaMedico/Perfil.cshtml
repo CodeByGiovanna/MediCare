@@ -1,0 +1,16 @@
+@page
+@model PerfilModel
+@{
+    ViewData["Title"] = "Meu perfil";
+}
+<div class="cartao estreito">
+    <h1>Meu perfil</h1>
+    <partial name="_Mensagens" model="Model" />
+    <p><strong>@Model.Medico.Nome</strong><br />@Model.Medico.Email<br />@Model.Medico.Crm</p>
+    <form method="post">
+        <label asp-for="Telefone">Telefone</label>
+        <input asp-for="Telefone" />
+        <span asp-validation-for="Telefone" class="erro-campo"></span>
+        <button type="submit" class="botao">Salvar</button>
+    </form>
+</div>

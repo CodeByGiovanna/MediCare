@@ -1,0 +1,42 @@
+@page
+@model AgendamentosModel
+@inject Apresentacao Texto
+@{
+    ViewData["Title"] = "Agendamentos";
+}
+<h1>Agendamentos</h1>
+<partial name="_Mensagens" model="Model" />
+
+<form method="get" class="filtro">
+    <label asp-for="Status">Situação</label>
+    <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusConsulta>()">
+        <option value="">Todas</option>
+    </select>
+    <button type="submit" class="botao">Filtrar</button>
+</form>
+
+<table>
+    <thead><tr><th>Data e hora</th><th>Paciente</th><th>Médico</th><th>Local</th><th>Situação</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var c in Model.Consultas)
+    {
+        var h = Texto.Horario(c);
+        <tr>
+            <td>@Texto.DataHora(h)</td>
+            <td>@Texto.Paciente(c)</td>
+            <td>@Texto.Medico(c)</td>
+            <td>@Texto.Local(h)</td>
+            <td><span class="situacao @c.Status.ToString().ToLower()">@Apresentacao.Nome(c.Status)</span></td>
+            <td>
+                @if (c.Status == StatusConsulta.Agendada)
+                {
+                    <form method="post" class="inline" onsubmit="return confirm('Cancelar esta consulta?');">
+                        <input type="hidden" name="consultaId" value="@c.Id" />
+                        <button type="submit" class="link perigo">Cancelar</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
