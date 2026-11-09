@@ -1,0 +1,4 @@
+Id,Nome,Email,SenhaHash,Provedor,Ativo,DataCadastro,Telefone,DataNascimento,CanalPreferido
+1,Ana Paula Souza,ana.souza@email.com,55A5E9E78207B4DF8699D60886FA070079463547B095D1A05BC719BB4E6CD251,Local,true,2026-10-02T09:15:00,(21) 98765-4321,1990-04-12,Email
+2,Bruno Lima,bruno.lima@email.com,55A5E9E78207B4DF8699D60886FA070079463547B095D1A05BC719BB4E6CD251,Local,true,2026-10-05T14:40:00,(21) 99876-1234,1985-11-30,WhatsApp
+3,Camila Torres,camila.torres@gmail.com,,Google,true,2026-10-20T19:05:00,(11) 97777-5555,1998-07-21,Sms
