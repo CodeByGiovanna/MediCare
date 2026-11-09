@@ -11,20 +11,19 @@ cuida dos usuários, dos agendamentos e do envio de notificações.
 ## Tecnologias
 
 - C# / .NET 8
-- Persistência em arquivos CSV (RFC 4180)
-- Aplicação de console (a interface Razor Pages está prevista para a próxima etapa)
+- ASP.NET Core Razor Pages (interface e back-end)
+- EF Core com SQLite (persistência)
+- xUnit (testes automatizados)
 
 ## Estrutura
 
 ```
-dados/                      arquivos CSV de exemplo
-docs/                       documentação de cada etapa (TP1 a TP4)
-src/MediCare.Core/
-  Models/                   entidades e enumerações
-  Csv/                      leitura e escrita de CSV
-  Repositories/             um repositório por arquivo CSV
-  Services/                 regras dos casos de uso
-src/MediCare.CsvApp/        aplicação de console com menu por perfil
+dados/                      dados de exemplo em CSV (carregados no banco na primeira execução)
+docs/                       documentação de cada etapa (TP1 a TP5)
+src/MediCare.Core/          entidades, regras de negócio (serviços) e leitura/escrita de CSV
+src/MediCare.Data/          persistência com EF Core (SQLite)
+src/MediCare.Web/           aplicação Razor Pages
+tests/MediCare.Tests/       testes automatizados
 ```
 
 ## Como executar
@@ -32,7 +31,16 @@ src/MediCare.CsvApp/        aplicação de console com menu por perfil
 Requer o [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 ```
-dotnet run --project src/MediCare.CsvApp -- dados
+dotnet run --project src/MediCare.Web
+```
+
+Acesse http://localhost:5080. Na primeira execução é criado o banco
+`src/MediCare.Web/medicare.db` com os dados de exemplo.
+
+Para executar os testes:
+
+```
+dotnet test
 ```
 
 ## Usuários de exemplo
@@ -55,3 +63,4 @@ Todos usam a senha `senha123`.
 | [TP2](docs/TP2_Casos_de_Uso.pdf) | Atores e casos de uso |
 | [TP3](docs/TP3_Modelagem_de_Classes.pdf) | Classes, dicionário de dados e leitura/escrita de CSV |
 | [TP4](docs/TP4_Mudanca_de_Requisitos.pdf) | Mudança de requisitos, diagramas de sequência e de comunicação |
+| [TP5](docs/TP5_Entrega_Final.pdf) | Aplicação Razor Pages, persistência com EF Core e testes |
